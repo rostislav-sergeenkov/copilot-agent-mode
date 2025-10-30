@@ -73,10 +73,20 @@ WSGI_APPLICATION = 'octofit_tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# Use djongo to connect Django ORM to MongoDB. This keeps using Django's
+# ORM while storing data in a MongoDB database as requested in project
+# instructions. For production you should move credentials into environment
+# variables or a secrets manager.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'octofit_db',
+        # ENFORCE_SCHEMA False lets Django be more flexible with MongoDB schema.
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            # Point to a local MongoDB instance. Adjust if you use a different host/port.
+            'host': 'mongodb://localhost:27017',
+        },
     }
 }
 
